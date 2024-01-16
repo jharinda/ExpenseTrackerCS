@@ -5,7 +5,7 @@ namespace ExpenseTracker.Classes
 {
     class Transaction
     {
-        public Transaction(string title, double amount, string comment, DateTime date, TransactionType type,TransactionCategory category)
+        public Transaction(string title, double amount, string comment, DateTime date, TransactionType type,TransactionCategory category, bool isRecurring)
         {
             Id = Guid.NewGuid();
             Title = title;
@@ -14,6 +14,7 @@ namespace ExpenseTracker.Classes
             Date = date;
             Type = type;
             Category = category;
+            IsRecurring = isRecurring;
         }
         public Guid Id { get; set; }
         public string Title { get; set; }
