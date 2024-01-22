@@ -1,6 +1,8 @@
 ﻿using ExpenseTracker.Database;
 using ExpenseTracker.Enums;
 using ExpenseTracker.Repository.Interfaces;
+using System.Data.Common;
+using System.Transactions;
 
 namespace ExpenseTracker.Classes
 {
@@ -66,18 +68,23 @@ namespace ExpenseTracker.Classes
 
         private static void viewTransactions()
         {
+
             Console.WriteLine("Available Transactions");
+            Console.WriteLine("+----+----------------------+------------+--------+-------------+----------------+---------------------+");
+            Console.WriteLine("| No |        Title         |   Amount   |  Type  |  Category   | Is Recurring   |        Date         |");
+            Console.WriteLine("+----+----------------------+------------+--------+-------------+----------------+---------------------+");
+
+            //Console.WriteLine("No - Title - Amount - Type - Category - Is Recurring - Date");
             foreach (Transaction transaction in InMemory.user.Transactions)
             {
-                Console.WriteLine($"{InMemory.user.Transactions.IndexOf(transaction) + 1} - {transaction.Title} - {transaction.Amount} - {transaction.Type} - {transaction.Category}");
+                Console.WriteLine($"| {InMemory.user.Transactions.IndexOf(transaction) + 1}  | {transaction.Title}      | ${transaction.Amount}   | {transaction.Type} | {transaction.Category} | {transaction.IsRecurring}             | {transaction.Date} |");
             }
+            Console.WriteLine("+----+----------------------+------------+--------+-------------+----------------+---------------------+");
         }
-
         private void editTransaction()
         {
             viewTransactions();
             Console.Write("Which transition you want to edit ? ");
-
             var indexStr = Console.ReadLine();
 
             while (!Int32.TryParse(indexStr, out int ind))
@@ -180,6 +187,10 @@ namespace ExpenseTracker.Classes
 
             InMemory.user.updateTransaction(editedTransaction);
 
+            if (isRecurring)
+            {
+                InMemory.addRecurringTransaction(editedTransaction.Id);
+            }
         }
 
         static bool TryParseDouble(string input, out double result)
@@ -273,7 +284,12 @@ namespace ExpenseTracker.Classes
 
             bool isRecurring = isRecurringStr == "y" ? true : false;
 
-            InMemory.user.addTransaction(titleStr, amount, comment, date, transactionType, transactionCategory, isRecurring);
+            Transaction t = InMemory.user.addTransaction(titleStr, amount, comment, date, transactionType, transactionCategory, isRecurring);
+
+            if (isRecurring)
+            {
+                InMemory.addRecurringTransaction(t.Id);
+            }
 
         }
     }

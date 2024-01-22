@@ -9,7 +9,11 @@ namespace ExpenseTracker.Database
 
         public static void addRecurringTransaction(Guid transactionId)
         {
-            recurringTransactions.Add(new RecurringTransaction(user.Id, transactionId));
+            RecurringTransaction list = recurringTransactions.Find(rt => rt.transactionId == transactionId);
+            if (list != null && list.transactionId != null) 
+            {
+                recurringTransactions.Add(new RecurringTransaction(user.Id, transactionId));
+            }
         }
     }
 
