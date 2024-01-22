@@ -8,11 +8,12 @@ namespace ExpenseTracker.Classes
         public string Name { get; set; }
         public List<Transaction> Transactions { get; set; }
 
-        public void addTransaction(string title, double amount, string comment,DateTime date, TransactionType type, TransactionCategory category, bool isRecurring)
+        public Transaction addTransaction(string title, double amount, string comment,DateTime date, TransactionType type, TransactionCategory category, bool isRecurring)
         {
             Transaction t = new Transaction(title,amount,comment,date,type,category,isRecurring);
             Transactions.Add(t);
             sortRecords();
+            return t;
         }
 
         public void sortRecords()
