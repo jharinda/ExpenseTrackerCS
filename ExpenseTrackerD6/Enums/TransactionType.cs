@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ExpenseTracker.Enums
+﻿namespace ExpenseTracker.Enums
 {
-   public enum TransactionType
+    public enum TransactionType
     {
         Income,
-        Expense
+        Expense 
     }
 }
