@@ -1,5 +1,6 @@
 ﻿using ExpenseTracker.Database;
 using ExpenseTracker.Enums;
+using ExpenseTracker.Repository.Interfaces;
 
 namespace ExpenseTracker.Classes
 {
@@ -37,7 +38,6 @@ namespace ExpenseTracker.Classes
                             invalidChoice();
                             break;
                     }
-
                 }
 
             }

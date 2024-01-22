@@ -1,5 +1,7 @@
 ﻿using ExpenseTracker.Database;
 using ExpenseTracker.Enums;
+using ExpenseTracker.Repository;
+using ExpenseTracker.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
