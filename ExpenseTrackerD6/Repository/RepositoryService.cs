@@ -1,7 +1,6 @@
 ﻿using ExpenseTracker.Classes;
 using ExpenseTracker.Database;
 
-
 namespace ExpenseTracker.Repository
 {
     class RepositoryService
@@ -10,7 +9,6 @@ namespace ExpenseTracker.Repository
         {
             CurrentUser = InMemory.user;
         }
-
         public User CurrentUser { get; set; }
     }
 }
