@@ -1,10 +1,18 @@
 ﻿using ExpenseTracker.Classes;
+using ExpenseTrackerD6.Classes;
 
 namespace ExpenseTracker.Database
 {
     class InMemory
     {
-        public static User user = new User() { Id = Guid.NewGuid(), Name = "Janith", Transactions = new List<Transaction>()};
+        public static User user = new User() 
+        { 
+            Id = Guid.NewGuid(), 
+            Name = "Janith", 
+            Transactions = new List<Transaction>(),
+            Categories  = new List<Category>()
+        };
+
         public static List<RecurringTransaction> recurringTransactions = new List<RecurringTransaction>();
 
         public static void addRecurringTransaction(Guid transactionId)

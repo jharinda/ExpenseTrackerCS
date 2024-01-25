@@ -1,4 +1,5 @@
 ﻿using ExpenseTracker.Enums;
+using ExpenseTrackerD6.Classes;
 
 namespace ExpenseTracker.Classes
 {
@@ -10,7 +11,7 @@ namespace ExpenseTracker.Classes
 
         public List<Category> Categories { get; set; }
 
-        public void addTransaction(string title, double amount, string comment,DateTime date, TransactionType type, TransactionCategory category, bool isRecurring)
+        public Transaction addTransaction(string title, double amount, string comment,DateTime date, TransactionType type, TransactionCategory category, bool isRecurring)
         {
             Transaction t = new Transaction(title,amount,comment,date,type,category,isRecurring);
             Transactions.Add(t);
@@ -58,9 +59,9 @@ namespace ExpenseTracker.Classes
 
         }
 
-        public void addCategory(string name, TransactionType type)
+        public void addCategory(string name, TransactionType type, double budget)
         {
-            Category cat = new Category(name, type);
+            Category cat = new Category(name, type, budget);
             Categories.Add(cat);
             Console.WriteLine("Category Created");
         }
@@ -78,6 +79,7 @@ namespace ExpenseTracker.Classes
             if (selectedCategory != null)
             {
                 Categories.Remove(selectedCategory);
+                Console.WriteLine("Category Deleted!");
             }
             else
             {

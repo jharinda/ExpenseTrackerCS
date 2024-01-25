@@ -2,6 +2,7 @@
 using ExpenseTracker.Enums;
 using ExpenseTracker.Repository;
 using ExpenseTracker.Repository.Interfaces;
+using ExpenseTrackerD6.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,69 +50,6 @@ namespace ExpenseTracker.Classes
             }
         }
 
-        private void createCategory()
-        {
-            try
-            {
-                Console.Write("Enter Category Name: ");
-                var name = Console.ReadLine();
-
-                if(name.Equals("")) 
-                {
-                    throw new Exception("Invalid Category Name");
-        }
-
-                Console.Write("Enter Category Type (Income,Expense): ");
-
-                var type = Console.ReadLine();
-
-                if (name.Equals(""))
-                {
-                    throw new Exception("Invalid Category Type");
-                }
-
-                if(!Enum.IsDefined(typeof(TransactionType), type))
-                {
-                    throw new Exception("Invalid Category Type");
-                }
-
-                InMemory.user.addCategory(name, ParseEnum<TransactionType>(type) );
-
-            }
-            catch(Exception ex) 
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-        private void editCategory()
-        {
-           
-        }
-
-        private void viewCategory()
-        {
-            List<Category> categories;
-            categories = InMemory.user.viewCategory(TransactionType.Income);
-            Console.Write("---Income Categories---");
-            foreach (Category category in categories)
-            {
-                Console.WriteLine(category.Name);
-            }
-            Console.Write("");
-            Console.Write("---Expense Categories---");
-            categories = InMemory.user.viewCategory(TransactionType.Expense);
-            foreach (Category category in categories)
-            {
-
-            }
-
-        }
-
-            public static T ParseEnum<T>(string value)
-        {
-            return (T)Enum.Parse(typeof(T), value, true);
-        }
 
         private void invalidChoice() 
         {
