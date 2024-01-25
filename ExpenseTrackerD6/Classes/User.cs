@@ -1,18 +1,10 @@
 ﻿using ExpenseTracker.Enums;
-using ExpenseTrackerD6.Classes;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
 
 namespace ExpenseTracker.Classes
 {
     class User
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public List<Transaction> Transactions { get; set; }
 
@@ -23,6 +15,7 @@ namespace ExpenseTracker.Classes
             Transaction t = new Transaction(title,amount,comment,date,type,category,isRecurring);
             Transactions.Add(t);
             sortRecords();
+            return t;
         }
 
         public void sortRecords()

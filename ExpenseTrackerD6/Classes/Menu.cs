@@ -1,5 +1,7 @@
 ﻿using ExpenseTracker.Database;
 using ExpenseTracker.Enums;
+using ExpenseTracker.Repository;
+using ExpenseTracker.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,27 +9,36 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace ExpenseTrackerD6.Classes
+namespace ExpenseTracker.Classes
 {
     public class Menu
     {
-        private void CategoriesMenu()
+        public Menu()
+        {
+             InMemory.user.addTransaction("T1",100,"c",DateTime.Now,TransactionType.Income,TransactionCategory.Normal,true);
+             InMemory.user.addTransaction("T2",200,"c1",DateTime.Now,TransactionType.Income,TransactionCategory.Normal,true);
+            createMainMenu();
+        }
+        
+        private void createMainMenu()
         {
             while (true)
             {
-                Console.WriteLine("1.Create Category");
-                Console.WriteLine("2.Edit Category");
-                Console.WriteLine("3.View Category");
-                Console.WriteLine("4.Back");
+                Console.WriteLine("1.Transactions");
+                Console.WriteLine("2.Categories");
+                Console.WriteLine("3.Exit");
 
                 var input = Console.ReadLine();
                 switch (input)
                 {
                     case "1":
+                        new TransactionMenu();
                         break;
                     case "2":
+                        new CategoryMenu();
                         break;
                     case "3":
+                        Environment.Exit(0);
                         break;
                     case "4":
                         return;
@@ -48,7 +59,7 @@ namespace ExpenseTrackerD6.Classes
                 if(name.Equals("")) 
                 {
                     throw new Exception("Invalid Category Name");
-                }
+        }
 
                 Console.Write("Enter Category Type (Income,Expense): ");
 
@@ -102,7 +113,7 @@ namespace ExpenseTrackerD6.Classes
             return (T)Enum.Parse(typeof(T), value, true);
         }
 
-        private void invalidChoice()
+        private void invalidChoice() 
         {
             Console.WriteLine("Invalid choice. Please try again.");
         }
