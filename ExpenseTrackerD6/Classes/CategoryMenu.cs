@@ -85,6 +85,8 @@ namespace ExpenseTracker.Classes
             TryParseDouble(amountStr, out double amountPrased);
             var amount = amountPrased;
 
+
+
             InMemory.user.addCategory(nameStr, transactionType, amount);
 
         }
