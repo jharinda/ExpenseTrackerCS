@@ -11,7 +11,7 @@ namespace ExpenseTracker.Classes
 
         public List<Category> Categories { get; set; }
 
-        public Transaction addTransaction(string title, double amount, string comment,DateTime date, TransactionType type, TransactionCategory category, bool isRecurring)
+        public Transaction addTransaction(string title, double amount, string comment,DateTime date, TransactionType type, Category category, bool isRecurring)
         {
             Transaction t = new Transaction(title,amount,comment,date,type,category,isRecurring);
             Transactions.Add(t);
@@ -63,7 +63,6 @@ namespace ExpenseTracker.Classes
         {
             Category cat = new Category(name, type, budget);
             Categories.Add(cat);
-            Console.WriteLine("Category Created");
         }
 
         public List<Category> viewCategory(TransactionType type)

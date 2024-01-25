@@ -1,6 +1,8 @@
 ﻿using ExpenseTracker.Database;
 using ExpenseTracker.Enums;
 using ExpenseTracker.Repository.Interfaces;
+using ExpenseTrackerD6.Classes;
+using System;
 using System.Data.Common;
 using System.Transactions;
 
@@ -51,19 +53,27 @@ namespace ExpenseTracker.Classes
 
         private void deleteTransaction()
         {
-            viewTransactions();
-
-            var index = Console.ReadLine();
-
-            while (!Int32.TryParse(index, out int i))
+            if (InMemory.user.Transactions.Count > 0)
             {
-                Console.WriteLine("Invalid input. Try Again");
-                index = Console.ReadLine();
+
+                viewTransactions();
+
+                var index = Console.ReadLine();
+
+                while (!Int32.TryParse(index, out int i))
+                {
+                    Console.WriteLine("Invalid input. Try Again");
+                    index = Console.ReadLine();
+                }
+
+                Int32.TryParse(index, out int prasedIndex);
+
+                InMemory.user.deleteTransaction(InMemory.user.Transactions[prasedIndex - 1]);
             }
-
-            Int32.TryParse(index, out int prasedIndex);
-
-            InMemory.user.deleteTransaction(InMemory.user.Transactions[prasedIndex - 1]);
+            else
+            {
+                Console.WriteLine("No transcations");
+            }
         }
 
         private static void viewTransactions()
@@ -77,13 +87,16 @@ namespace ExpenseTracker.Classes
             //Console.WriteLine("No - Title - Amount - Type - Category - Is Recurring - Date");
             foreach (Transaction transaction in InMemory.user.Transactions)
             {
-                Console.WriteLine($"| {InMemory.user.Transactions.IndexOf(transaction) + 1}  | {transaction.Title}      | ${transaction.Amount}   | {transaction.Type} | {transaction.Category} | {transaction.IsRecurring}             | {transaction.Date} |");
+                Console.WriteLine($"| {InMemory.user.Transactions.IndexOf(transaction) + 1}  | {transaction.Title}      | ${transaction.Amount}   | {transaction.Type} | {transaction.Category.Name} | {transaction.IsRecurring}             | {transaction.Date} |");
             }
             Console.WriteLine("+----+----------------------+------------+--------+-------------+----------------+---------------------+");
         }
         private void editTransaction()
         {
-            viewTransactions();
+            if (InMemory.user.Transactions.Count > 0)
+            {
+            
+            viewTransactions();        
             Console.Write("Which transition you want to edit ? ");
             var indexStr = Console.ReadLine();
 
@@ -150,7 +163,8 @@ namespace ExpenseTracker.Classes
             var transactionType = tt;
 
             // Category
-            Console.WriteLine($"Enter Category  ( Old value : {tr.Category} ): (Type the value)");
+            /*
+            Console.WriteLine($"Enter Category  ( Old value : {tr.Category.Name} ): (Type the value)");
 
             foreach (TransactionCategory type in Enum.GetValues(typeof(TransactionCategory)))
             {
@@ -168,6 +182,40 @@ namespace ExpenseTracker.Classes
 
             Enum.TryParse<TransactionCategory>(typeStr, true, out TransactionCategory tc);
             var transactionCategory = tc;
+            */
+
+            viewCategory(transactionType);
+
+            Console.WriteLine("Select the category");
+            var catStr = Console.ReadLine();
+            int index = 0;
+
+            while (!Int32.TryParse(catStr, out index))
+            {
+                Console.WriteLine("Invalid input. Try Again");
+                catStr = Console.ReadLine();
+            }
+
+            while (InMemory.user.Categories.Count < index || InMemory.user.Categories[index - 1].Type != transactionType)
+            {
+                Console.WriteLine("Invalid selection. Try Again");
+                catStr = Console.ReadLine();
+                while (!Int32.TryParse(catStr, out index))
+                {
+                    Console.WriteLine("Invalid input. Try Again");
+                    catStr = Console.ReadLine();
+                }
+
+                    while (InMemory.user.Categories[index - 1].Type != transactionType)
+                    {
+                        Console.WriteLine("Invalid input. Try Again");
+                        catStr = Console.ReadLine();
+                    }
+                }
+
+       
+
+            Category cat = InMemory.user.Categories[index - 1];
 
             // Recurring
             Console.Write($"Is this Transaction Recurring  ( Old value : {tr.IsRecurring} ) (y/n): ");
@@ -181,7 +229,7 @@ namespace ExpenseTracker.Classes
 
             bool isRecurring = isRecurringStr == "y" ? true : false;
 
-            Transaction editedTransaction = new Transaction(titleStr, amount, comment, date, transactionType, transactionCategory, isRecurring);
+            Transaction editedTransaction = new Transaction(titleStr, amount, comment, date, transactionType, cat, isRecurring);
 
             editedTransaction.Id = tr.Id;
 
@@ -190,6 +238,12 @@ namespace ExpenseTracker.Classes
             if (isRecurring)
             {
                 InMemory.addRecurringTransaction(editedTransaction.Id);
+            }
+
+          }
+            else
+            {
+                Console.WriteLine("No transcations");
             }
         }
 
@@ -253,6 +307,7 @@ namespace ExpenseTracker.Classes
             var transactionType = tt;
 
             // Category
+            /*
             Console.WriteLine("Enter Category : (Type the value)");
 
             foreach (TransactionCategory type in Enum.GetValues(typeof(TransactionCategory)))
@@ -271,6 +326,35 @@ namespace ExpenseTracker.Classes
 
             Enum.TryParse<TransactionCategory>(typeStr, true, out TransactionCategory tc);
             var transactionCategory = tc;
+            */
+
+            viewCategory(transactionType);
+
+            Console.WriteLine("Select the category");
+            var catStr = Console.ReadLine();
+            int index = 0;
+
+            while (!Int32.TryParse(catStr, out index))
+            {
+                Console.WriteLine("Invalid input. Try Again");
+                catStr = Console.ReadLine();
+            }
+
+            while (InMemory.user.Categories.Count < index || InMemory.user.Categories[index - 1].Type != transactionType)
+            {
+                Console.WriteLine("Invalid selection. Try Again");
+                catStr = Console.ReadLine();
+                while (!Int32.TryParse(catStr, out index))
+                {
+                    Console.WriteLine("Invalid input. Try Again");
+                    catStr = Console.ReadLine();
+                }
+
+            }
+
+            Category cat = InMemory.user.Categories[index - 1];
+
+
 
             // Recurring
             Console.Write("Is this Transaction Recurring (y/n): ");
@@ -284,13 +368,27 @@ namespace ExpenseTracker.Classes
 
             bool isRecurring = isRecurringStr == "y" ? true : false;
 
-            Transaction t = InMemory.user.addTransaction(titleStr, amount, comment, date, transactionType, transactionCategory, isRecurring);
+            Transaction t = InMemory.user.addTransaction(titleStr, amount, comment, date, transactionType, cat, isRecurring);
 
             if (isRecurring)
             {
                 InMemory.addRecurringTransaction(t.Id);
             }
 
+        }
+
+        private void viewCategory(TransactionType type)
+        {
+            Console.WriteLine("Available Categories");
+            Console.WriteLine("+----+----------------------+------------+---------------------+");
+            Console.WriteLine("| No |        Name          | Type       |  Budget   ");
+            Console.WriteLine("+----+----------------------+------------+---------------------+");
+
+            foreach (Category category in InMemory.user.viewCategory(type))
+            {
+                Console.WriteLine($"| {InMemory.user.Categories.IndexOf(category) + 1}  | {category.Name}           | {category.Type}   |  ${category.Budget}");
+            }
+            Console.WriteLine("+----+----------------------+------------+---------------------+");
         }
     }
 }

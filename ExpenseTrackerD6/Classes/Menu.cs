@@ -16,8 +16,13 @@ namespace ExpenseTracker.Classes
     {
         public Menu()
         {
-             InMemory.user.addTransaction("T1",100,"c",DateTime.Now,TransactionType.Income,TransactionCategory.Normal,true);
-             InMemory.user.addTransaction("T2",200,"c1",DateTime.Now,TransactionType.Income,TransactionCategory.Normal,true);
+            InMemory.user.addCategory("Transport", TransactionType.Expense, 10000.00);
+            InMemory.user.addCategory("Meal", TransactionType.Expense, 2500.00);
+            InMemory.user.addCategory("Income", TransactionType.Income, 50000.00);
+            InMemory.user.addCategory("Rent", TransactionType.Income, 15000.00);
+
+            //InMemory.user.addTransaction("T1",100,"c",DateTime.Now,TransactionType.Income,null,true);
+            // InMemory.user.addTransaction("T2",200,"c1",DateTime.Now,TransactionType.Income, null, true);
             createMainMenu();
         }
         
