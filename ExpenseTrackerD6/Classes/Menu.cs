@@ -2,11 +2,13 @@
 using ExpenseTracker.Enums;
 using ExpenseTracker.Repository;
 using ExpenseTracker.Repository.Interfaces;
+using ExpenseTrackerD6.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ExpenseTracker.Classes
 {
@@ -39,12 +41,16 @@ namespace ExpenseTracker.Classes
                     case "3":
                         Environment.Exit(0);
                         break;
+                    case "4":
+                        return;
                     default:
                         invalidChoice();
                         break;
                 }
             }
         }
+
+
         private void invalidChoice() 
         {
             Console.WriteLine("Invalid choice. Please try again.");
