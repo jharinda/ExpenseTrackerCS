@@ -86,7 +86,7 @@ namespace ExpenseTracker.Classes
             var amount = amountPrased;
 
             InMemory.user.addCategory(nameStr, transactionType, amount);
-
+            Console.WriteLine("Category Created");
         }
 
         private void viewCategory()
