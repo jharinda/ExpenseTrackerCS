@@ -32,6 +32,7 @@ namespace ExpenseTracker.Classes
             {
                 Console.WriteLine("1.Transactions");
                 Console.WriteLine("2.Categories");
+                Console.WriteLine("3.Analysis");
                 Console.WriteLine("3.Exit");
 
                 var input = Console.ReadLine();
@@ -44,10 +45,11 @@ namespace ExpenseTracker.Classes
                         new CategoryMenu();
                         break;
                     case "3":
-                        Environment.Exit(0);
+                        new SummaryReport();
                         break;
                     case "4":
-                        return;
+                        Environment.Exit(0);
+                        break;
                     default:
                         invalidChoice();
                         break;
