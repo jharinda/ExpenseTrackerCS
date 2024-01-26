@@ -63,7 +63,13 @@ namespace ExpenseTrackerD6.Classes
                 }
                 return 0;
             });
-            double overallExpenseSpending = InMemory.user.Transactions.Sum(t => t.Amount);
+            double overallExpenseSpending = InMemory.user.Transactions.Sum(t => {
+                if (t.Type == TransactionType.Expense)
+                {
+                    return t.Amount;
+                }
+                return 0;
+            });
             double overallExpenseDifference = overallExpenseBudget - overallExpenseSpending;
 
             Console.WriteLine("+----------------------+--------+------------+--------+----------------+");
